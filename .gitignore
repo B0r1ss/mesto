@@ -1,0 +1,9 @@
+.git/*
+env/
+venv/
+.venv
+.venv/
+.vscode/
+settings.json
+node_modules/
+.settings
