@@ -3,9 +3,9 @@
   transition: opacity 0.2s linear;
   opacity: 1;
   cursor: pointer;
+  outline:none;
 }
 
 .profile__button:hover {
-  background-color: #000000;
   opacity: 0.8;
 }
