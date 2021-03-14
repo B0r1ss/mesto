@@ -7,3 +7,11 @@
   background-repeat: no-repeat;
   border: 1px solid #FFFFFF;
 }
+
+@media screen and (max-width:528px) {
+  .profile__button_edit {
+    width: 18px;
+    height: 18px;
+    margin: auto 0 0 10px;
+  }
+}

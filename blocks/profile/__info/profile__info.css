@@ -5,3 +5,11 @@
   flex-wrap: wrap; 
   align-items: center;
 }
+
+@media screen and (max-width:528px) {
+  .profile__info {
+    max-width: 282px;
+    margin: 26px auto 0;
+    justify-content: center;
+  }
+}
