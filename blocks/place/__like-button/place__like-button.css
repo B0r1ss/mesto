@@ -1,8 +1,8 @@
-.elements__place__like-button {
+.place__like-button {
   width: 19px;
   height: 22px;
   margin: 5px 5px 0 0;
-  background-image: url(../../../../images/like-disable.svg);
+  background-image: url(../../../images/like-disable.svg);
   border: none;
   background-color: white;
   background-position: center;
@@ -14,6 +14,6 @@
   cursor: pointer;
 }
 
-.elements__place__like-button:hover {
+.place__like-button:hover {
   opacity: 0.5;
 }
