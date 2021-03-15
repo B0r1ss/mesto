@@ -2,17 +2,18 @@
   width: 142px;
   height: 33px;
   margin: 0 auto 41px 0;
-  object-fit: cover;
+  object-fit: contain;
   object-position: 0 0;
   opacity: 1;
   transition: opacity 0.2s linear;
+  box-sizing: border-box;
 }
 
 .header__logo:hover {
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
-@media screen and (max-width:528px) {
+@media screen and (max-width:598px) {
   .header__logo {
     width: 103.74px;
     height: 24.4px;

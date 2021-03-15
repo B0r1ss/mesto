@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./pages/index.css">
 
-  <title>Mesto Russia</title>
+  <title>Mesto</title>
 </head>
 <body>
 <div class="page">
@@ -81,13 +81,15 @@
   </footer>
 
   <div class="popup">
-    <form class="popup__container">
+    <div class="popup__container">
       <button type='button' class="popup__close-button"></button>
-      <h2 class="popup__title">Редактировать профиль</h2>
-      <input type="text" name="username" class="popup__input">
-      <input type="text" name="position" class="popup__input">
-      <button type='submit' class="popup__button">Сохранить</button>
-    </form>
+      <form>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input type="text" name="username" class="popup__input" placeholder="Имя">
+        <input type="text" name="position" class="popup__input" placeholder="О себе">
+        <button type='submit' autofocus class="popup__button" autofocus>Сохранить</button>
+      </form>
+    </div>
   </div>
 
 </div>

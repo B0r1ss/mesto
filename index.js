@@ -11,8 +11,6 @@ let position=document.querySelector(".profile__position")
 let inputUsername=document.querySelectorAll(".popup__input")[0]
 let inputPosition=document.querySelectorAll(".popup__input")[1]
 
-
-
 likeButtons.forEach(element =>{element.addEventListener("click", function() {
   element.classList.toggle("place__like-button_enable")
   })
@@ -28,21 +26,11 @@ closeButtonPopup.addEventListener("click", function() {
   popup.classList.remove("popup_opened")
 });
 
-closeButtonPopup.addEventListener("click", function() {
-  popup.classList.remove("popup_opened")
-});
-
-console.log(username)
-
 popupForm.addEventListener("submit", function(evt) {
   evt.preventDefault()
   let popUsername=inputUsername.value
   let popPosition=inputPosition.value
   popup.classList.remove("popup_opened")
-  console.log(popPosition)
-  console.log(popUsername)
   document.querySelector(".profile__username").textContent=popUsername
   document.querySelector(".profile__position").textContent=popPosition
 });
-
-

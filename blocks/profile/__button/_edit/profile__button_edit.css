@@ -8,7 +8,7 @@
   border: 1px solid #FFFFFF;
 }
 
-@media screen and (max-width:528px) {
+@media screen and (max-width:598px) {
   .profile__button_edit {
     width: 18px;
     height: 18px;
