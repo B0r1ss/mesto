@@ -1,4 +1,3 @@
-let likeButtons=document.querySelectorAll(".place__like-button")
 let profileButtonAdd=document.querySelector(".profile__button_add")
 let profileButtonEdit=document.querySelector(".profile__button_edit")
 let closeButtonPopup=document.querySelector(".popup__close-button")
@@ -8,18 +7,14 @@ let popupForm=document.querySelector(".popup__container")
 
 let username=document.querySelector(".profile__username")
 let position=document.querySelector(".profile__position")
-let inputUsername=document.querySelectorAll(".popup__input")[0]
-let inputPosition=document.querySelectorAll(".popup__input")[1]
+let inputUsername=document.querySelectorAll(".input_username")
+let inputPosition=document.querySelectorAll(".input_position")
 
-likeButtons.forEach(element =>{element.addEventListener("click", function() {
-  element.classList.toggle("place__like-button_enable")
-  })
-});
 
 profileButtonEdit.addEventListener("click", function() {
   popup.classList.add("popup_opened")
-  inputUsername.setAttribute('value', username.textContent)
-  inputPosition.setAttribute('value', position.textContent)
+  inputUsername=username.textContent
+  inputPosition=position.textContent
 });
 
 closeButtonPopup.addEventListener("click", function() {

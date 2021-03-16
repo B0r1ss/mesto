@@ -6,7 +6,7 @@
   padding: 34px 36px 37px;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 1);
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px; 
 }
