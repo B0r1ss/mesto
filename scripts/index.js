@@ -8,8 +8,8 @@ let popupForm=document.querySelector(".popup__container")
 
 let username=document.querySelector(".profile__username")
 let position=document.querySelector(".profile__position")
-let inputUsername=document.querySelectorAll(".input_username")
-let inputPosition=document.querySelectorAll(".input_position")
+let inputUsername=document.querySelectorAll(".popup__input_username")
+let inputPosition=document.querySelectorAll(".popup__input_position")
 
 /*DEFINE FUNCTIONS*/
 function openPopup() {
