@@ -4,11 +4,18 @@
   display: grid;
   box-sizing: border-box;
   max-width: 880px;
+  justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
   gap: 17px;
 }
 
-@media screen and (max-width:598px) {
+@media screen and (max-width:585px) {
+  .elements {
+    max-width: 539px;
+  }
+}
+
+@media screen and (max-width:580px) {
   .elements {
     max-width: 282px;
     margin: 36px auto 0;

@@ -1,3 +1,4 @@
+/*DEFINE VAR*/
 let profileButtonAdd=document.querySelector(".profile__button_add")
 let profileButtonEdit=document.querySelector(".profile__button_edit")
 let closeButtonPopup=document.querySelector(".popup__close-button")
@@ -10,22 +11,27 @@ let position=document.querySelector(".profile__position")
 let inputUsername=document.querySelectorAll(".input_username")
 let inputPosition=document.querySelectorAll(".input_position")
 
-
-profileButtonEdit.addEventListener("click", function() {
+/*DEFINE FUNCTIONS*/
+function openPopup() {
   popup.classList.add("popup_opened")
   inputUsername=username.textContent
   inputPosition=position.textContent
-});
+}
 
-closeButtonPopup.addEventListener("click", function() {
+function closePopup() {
   popup.classList.remove("popup_opened")
-});
+}
 
-popupForm.addEventListener("submit", function(evt) {
+function submitPopup(evt) {
   evt.preventDefault()
   let popUsername=inputUsername.value
   let popPosition=inputPosition.value
-  popup.classList.remove("popup_opened")
-  document.querySelector(".profile__username").textContent=popUsername
-  document.querySelector(".profile__position").textContent=popPosition
-});
+  closeButtonPopup()
+  username.textContent=popUsername
+  position.textContent=popPosition
+}
+
+/*ADD LISTENERS */
+profileButtonEdit.addEventListener("click", openPopup);
+closeButtonPopup.addEventListener("click", closePopup);
+popupForm.addEventListener("submit", submitPopup);
