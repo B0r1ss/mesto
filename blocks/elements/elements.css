@@ -1,24 +1,12 @@
 .elements {
   margin: 50px auto 0;
-  display: -ms-grid;
-  display: grid;
+  padding: 0 18px;
   box-sizing: border-box;
-  max-width: 880px;
-  justify-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
-  gap: 17px;
+  max-width: 916px;
 }
 
-@media screen and (max-width:585px) {
+@media screen and (max-width:598px) {
   .elements {
-    max-width: 539px;
-  }
-}
-
-@media screen and (max-width:580px) {
-  .elements {
-    max-width: 282px;
     margin: 36px auto 0;
-    gap: 20px;
   }
 }

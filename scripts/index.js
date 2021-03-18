@@ -6,16 +6,17 @@ let closeButtonPopup=document.querySelector(".popup__close-button")
 let popup=document.querySelector(".popup")
 let popupForm=document.querySelector(".popup__container")
 
-let username=document.querySelector(".profile__username")
+let userName=document.querySelector(".profile__username")
 let position=document.querySelector(".profile__position")
-let inputUsername=document.querySelectorAll(".popup__input_username")
-let inputPosition=document.querySelectorAll(".popup__input_position")
+let inputUserName=document.querySelector(".popup__username_input")
+let inputPosition=document.querySelector(".popup__position_input")
 
 /*DEFINE FUNCTIONS*/
 function openPopup() {
   popup.classList.add("popup_opened")
-  inputUsername=username.textContent
-  inputPosition=position.textContent
+  inputUserName.value=userName.textContent
+
+  inputPosition.value=position.textContent
 }
 
 function closePopup() {
@@ -24,11 +25,9 @@ function closePopup() {
 
 function submitPopup(evt) {
   evt.preventDefault()
-  let popUsername=inputUsername.value
-  let popPosition=inputPosition.value
-  closeButtonPopup()
-  username.textContent=popUsername
-  position.textContent=popPosition
+  userName.textContent=inputUserName.value
+  position.textContent=inputPosition.value
+  closePopup()
 }
 
 /*ADD LISTENERS */
