@@ -30,48 +30,7 @@
 
     <section class="elements">
       <div class="elements__list">
-      <article class="place">
-        <img src="./images/karachaevo-ch.jpg" alt="Карачаевск" class="place__image"/>
-        <div class="place__footer">
-          <h2 class="place__title">Карачаевск</h2>
-          <button type="button" class="place__like-button"></button>
-        </div>
-      </article>
-      <article class="place">
-        <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="place__image"/>
-        <div class="place__footer">
-          <h2 class="place__title">Гора Эльбрус</h2>
-          <button type="button" class="place__like-button"></button>
-        </div>
-      </article>
-      <article class="place">
-        <img src="./images/dombay.jpg" alt="Домбай" class="place__image"/>
-        <div class="place__footer">
-          <h2 class="place__title">Домбай</h2>
-          <button type="button" class="place__like-button"></button>
-        </div>
-      </article>
-      <article class="place">
-        <img src="./images/elbrus.jpg" alt="Гора Эльбрус" class="place__image"/>
-        <div class="place__footer">
-          <h2 class="place__title">Гора Эльбрус</h2>
-          <button type="button" class="place__like-button"></button>
-        </div>
-      </article>
-      <article class="place">
-        <img src="./images/dombay.jpg" alt="Домбай" class="place__image"/>
-        <div class="place__footer">
-          <h2 class="place__title">Домбай</h2>
-          <button type="button" class="place__like-button"></button>
-        </div>
-      </article>
-      <article class="place">
-        <img src="./images/karachaevo-ch.jpg" alt="Карачаево-Черкессия" class="place__image"/>
-        <div class="place__footer">
-          <h2 class="place__title">Карачаево-Черкессия</h2>
-          <button type="button" class="place__like-button"></button>
-        </div>
-      </article>
+
       </div>
     </section>
 
@@ -81,20 +40,52 @@
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
 
-  <div class="popup">
+  <div class="popup popup_edit">
     <div class="popup__container">
       <button type="button" class="popup__close-button"></button>
       <form name="edit-profile">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" name="username" class="popup__input popup__input_username_input" placeholder="Имя">
-        <input type="text" name="position" class="popup__input popup__input_position_input" placeholder="О себе">
+        <input required type="text" name="username" class="popup__input popup__input_username_input" placeholder="Имя">
+        <input required type="text" name="position" class="popup__input popup__input_position_input" placeholder="О себе">
         <button type="submit" autofocus class="popup__button">Сохранить</button>
       </form>
     </div>
   </div>
 
+  <div class="popup popup_add">
+      <div class="popup__container">
+        <button type="button" class="popup__close-button"></button>
+        <form name="popup-form">
+          <h2 class="popup__title">Новое место</h2>
+          <input required name="name" type="text" placeholder="Название" maxlength="30" minlength="1" class="popup__input popup__input_title_input"/>
+          <input required name="link" type="url" placeholder="Ссылка на картинку" class="popup__input popup__input_link_input"/>
+          <button type="submit" autofocus class="popup__button">Создать</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_img" id="popup-image">
+      <div class="popup__img-container">
+        <button type="button" class="popup__close-button"></button>
+        <img src="" alt="" class="popup__image" />
+        <h2 class="popup__title-image"></h2>
+      </div>
+    </div>
+
 </div>
-  <script src="./scripts/index.js"></script>
+
+<template id="card">
+  <article class="place">
+    <button type="button" class="place__delete-button"></button>
+    <img src="" alt="" class="place__image"/>
+    <div class="place__footer">
+      <h2 class="place__title"></h2>
+      <button type="button" class="place__like-button"></button>
+    </div>
+  </article>
+</template>
+
+<script src="./scripts/index.js"></script>
 </body>
 
 </html>
