@@ -53,10 +53,10 @@ const inputPosition = popupEdit.querySelector(".popup__input_position_input");
 const inputTitle = popupAdd.querySelector(".popup__input_title_input");
 const inputLink = popupAdd.querySelector(".popup__input_link_input");
 
-let userName = document.querySelector(".profile__username");
-let position = document.querySelector(".profile__position");
-let popupImgImage = popupImg.querySelector(".popup__image");
-let popupImgTitle = popupImg.querySelector(".popup__title-image");
+const userName = document.querySelector(".profile__username");
+const position = document.querySelector(".profile__position");
+const popupImgImage = popupImg.querySelector(".popup__image");
+const popupImgTitle = popupImg.querySelector(".popup__title-image");
 
 /*CREATE CARD*/
 function createCard(obj) {
@@ -104,7 +104,7 @@ function openPopupEdit() {
 
 function openPopupImage(place) {
   const image = place.src;
-  const title = place.parentElement.querySelector(".place__title");
+  const title = place.alt;
   popupImgTitle.textContent = title.textContent;
   popupImgImage.src = image;
   openPopup(popupImg);
@@ -116,7 +116,6 @@ function submitPopupEdit(evt) {
   userName.textContent = inputUserName.value;
   position.textContent = inputPosition.value;
   closePopup(popupFormEdit.closest(".popup_edit"));
-  inputUserName.closest("form").reset()
 }
 
 function submitPopupAdd(evt) {
@@ -124,7 +123,7 @@ function submitPopupAdd(evt) {
   const obj = {name: inputTitle.value,
                link: inputLink.value,
               }
-  let cardAdd = createCard(obj);
+  const cardAdd = createCard(obj);
   elementsList.prepend(cardAdd);
   closePopup(popupFormAdd.closest(".popup_add"));
   inputTitle.closest("form").reset()
@@ -135,20 +134,20 @@ function placeDelete(place) {
 }
 
 /*ADD LISTENERS */
-profileButtonAdd.addEventListener("click", function() {
+profileButtonAdd.addEventListener("click", () => {
   openPopup(popupAdd)
 });
-closeButtonPopupAdd.addEventListener("click", function (evt) {
-  closePopup(evt.target.closest(".popup_add"));
+closeButtonPopupAdd.addEventListener("click", () => {
+  closePopup(popupAdd);
 });
 popupFormAdd.addEventListener("submit", submitPopupAdd);
 
 profileButtonEdit.addEventListener("click", openPopupEdit);
-closeButtonPopupEdit.addEventListener("click", function (evt) {
-  closePopup(evt.target.closest(".popup_edit"));
+closeButtonPopupEdit.addEventListener("click", () => {
+  closePopup(popupEdit);
 });
 popupFormEdit.addEventListener("submit", submitPopupEdit);
 
-closeButtonPopupImg.addEventListener("click", function (evt) {
-  closePopup(evt.target.closest(".popup_img"));
+closeButtonPopupImg.addEventListener("click", () => {
+  closePopup(popupImg);
 });
