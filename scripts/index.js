@@ -151,3 +151,17 @@ popupFormEdit.addEventListener("submit", submitPopupEdit);
 closeButtonPopupImg.addEventListener("click", () => {
   closePopup(popupImg);
 });
+
+document.addEventListener("click", (evt)=>{
+  if(evt.target.classList.contains("popup_opened")) {
+    closePopup(evt.target)
+  }
+})
+
+document.addEventListener("keydown", (evt)=>{
+  if(evt.key==='Escape') {
+    closePopup(popupImg);
+    closePopup(popupAdd);
+    closePopup(popupEdit);
+  }
+})

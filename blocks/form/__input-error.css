@@ -1,0 +1,10 @@
+.form__input-error {
+  position: relative;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FF0000;
+}
+
+.form__input-error:first-of-type {
+  top: -30px;
+}
