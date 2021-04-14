@@ -1,5 +1,5 @@
 .popup__input {
-  margin: 0 auto 30px;
+  margin: 30px auto 0;
   width: 100%;
   min-height: 27px;
   font-family: 'Inter', 'Arial', sans-serif;
@@ -15,10 +15,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-}
-
-.popup__input:last-of-type {
-  margin: 0 auto 0;
 }
 
 @media screen and (max-width:598px) {
