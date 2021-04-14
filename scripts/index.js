@@ -155,6 +155,7 @@ closeButtonPopupImg.addEventListener("click", () => {
 document.addEventListener("click", (evt)=>{
   if(evt.target.classList.contains("popup_opened")) {
     closePopup(evt.target)
+    evt.target.querySelector("form").reset()
   }
 })
 
@@ -162,6 +163,8 @@ document.addEventListener("keydown", (evt)=>{
   if(evt.key==='Escape') {
     closePopup(popupImg);
     closePopup(popupAdd);
+    document.forms.add_form.reset()
     closePopup(popupEdit);
+    document.forms.edit_profile.reset()
   }
 })
