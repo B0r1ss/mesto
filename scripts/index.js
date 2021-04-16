@@ -155,7 +155,6 @@ closeButtonPopupImg.addEventListener("click", () => {
 document.addEventListener("click", (evt)=>{
   if(evt.target.classList.contains("popup_opened")) {
     closePopup(evt.target)
-    evt.target.querySelector("form").reset()
   }
 })
 
