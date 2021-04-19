@@ -1,39 +1,3 @@
-import * as validate from validate.js
-
-/*DEFINE VAR*/
-const initialCards = [
-  {
-    name: "Архыз",
-    link:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
-
 const templateCard = document.querySelector("#card").content;
 const elementsList = document.querySelector(".elements__list");
 const profileButtonAdd = document.querySelector(".profile__button_add");
@@ -90,12 +54,21 @@ initialCards.forEach((item) => {
 });
 
 /*DEFINE FUNCTIONS FOR LISTENERS*/
+function closeByEsc(evt) {
+  if (evt.key === "Escape") {
+    const openPopup = document.querySelector(".popup_opened");
+    closePopup(openPopup);
+  }
+}
+
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closeByEsc);
 }
 
 function openPopup(popup) {
   popup.classList.add("popup_opened");
+  document.addEventListener("keydown", closeByEsc);
 }
 
 function openPopupEdit() {
@@ -112,61 +85,74 @@ function openPopupImage(place) {
   openPopup(popupImg);
 }
 
-
 function submitPopupEdit(evt) {
   evt.preventDefault();
   userName.textContent = inputUserName.value;
   position.textContent = inputPosition.value;
-  closePopup(popupFormEdit.closest(".popup_edit"));
+  closePopup(popupEdit);
 }
 
 function submitPopupAdd(evt) {
   evt.preventDefault();
-  const obj = {name: inputTitle.value,
-               link: inputLink.value,
-              }
+  const inputList = Array.from(
+    popupAdd.querySelectorAll(settingsValidate.inputSelector)
+  );
+  const buttonElement = popupAdd.querySelector(
+    settingsValidate.submitButtonSelector
+  );
+  const obj = { name: inputTitle.value, link: inputLink.value };
   const cardAdd = createCard(obj);
   elementsList.prepend(cardAdd);
-  closePopup(popupFormAdd.closest(".popup_add"));
-  inputTitle.closest("form").reset()
-  validate.setButtonState(inputTitle.closest("form"))
+  closePopup(popupAdd);
+  inputTitle.closest("form").reset();
+  setButtonState(inputList, buttonElement, settingsValidate);
 }
 
 function placeDelete(place) {
-  place.parentElement.remove();
+  place.closest(".place").remove();
 }
 
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {
-  openPopup(popupAdd)
+  const form = document.forms.add_form;
+  const input = Array.from(
+    form.querySelectorAll(settingsValidate.inputSelector)
+  );
+  input.forEach((inputElement) => {
+    hideInputError(form, inputElement, settingsValidate);
+  });
+  openPopup(popupAdd);
 });
+
 closeButtonPopupAdd.addEventListener("click", () => {
   closePopup(popupAdd);
 });
+
 popupFormAdd.addEventListener("submit", submitPopupAdd);
 
-profileButtonEdit.addEventListener("click", openPopupEdit);
+profileButtonEdit.addEventListener("click", () => {
+  const form = document.forms.edit_profile;
+  const input = Array.from(
+    form.querySelectorAll(settingsValidate.inputSelector)
+  );
+  input.forEach((inputElement) => {
+    hideInputError(form, inputElement, settingsValidate);
+  });
+  openPopupEdit();
+});
+
 closeButtonPopupEdit.addEventListener("click", () => {
   closePopup(popupEdit);
 });
+
 popupFormEdit.addEventListener("submit", submitPopupEdit);
 
 closeButtonPopupImg.addEventListener("click", () => {
   closePopup(popupImg);
 });
 
-document.addEventListener("click", (evt)=>{
-  if(evt.target.classList.contains("popup_opened")) {
-    closePopup(evt.target)
+document.addEventListener("click", (evt) => {
+  if (evt.target.classList.contains("popup_opened")) {
+    closePopup(evt.target);
   }
-})
-
-document.addEventListener("keydown", (evt)=>{
-  if(evt.key==='Escape') {
-    closePopup(popupImg);
-    closePopup(popupAdd);
-    document.forms.add_form.reset()
-    closePopup(popupEdit);
-    document.forms.edit_profile.reset()
-  }
-})
+});
