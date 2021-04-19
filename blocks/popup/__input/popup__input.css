@@ -16,11 +16,3 @@
   white-space: nowrap;
   overflow: hidden;
 }
-
-@media screen and (max-width:598px) {
-  .profile {
-    max-width: 282px;
-    margin: 42px auto 0;
-    justify-content: center;
-  }
-}

@@ -1,3 +1,5 @@
+import * as validate from validate.js
+
 /*DEFINE VAR*/
 const initialCards = [
   {
@@ -127,6 +129,7 @@ function submitPopupAdd(evt) {
   elementsList.prepend(cardAdd);
   closePopup(popupFormAdd.closest(".popup_add"));
   inputTitle.closest("form").reset()
+  validate.setButtonState(inputTitle.closest("form"))
 }
 
 function placeDelete(place) {
