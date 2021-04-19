@@ -7,18 +7,21 @@ const popupAdd = document.querySelector(".popup_add");
 const popupEdit = document.querySelector(".popup_edit");
 const popupImg = document.querySelector(".popup_img");
 
-const popupFormAdd = popupAdd.querySelector(".popup__container");
-const popupFormEdit = popupEdit.querySelector(".popup__container");
+/*GET FORMS*/
+const formAdd = document.forms.add_form
+const formEdit = document.forms.edit_profile
 
+/*CLOSE BUTTONS POPUP */
 const closeButtonPopupAdd = popupAdd.querySelector(".popup__close-button");
 const closeButtonPopupEdit = popupEdit.querySelector(".popup__close-button");
 const closeButtonPopupImg = popupImg.querySelector(".popup__close-button");
 
-const inputUserName = popupEdit.querySelector(".popup__input_username_input");
-const inputPosition = popupEdit.querySelector(".popup__input_position_input");
-const inputTitle = popupAdd.querySelector(".popup__input_title_input");
-const inputLink = popupAdd.querySelector(".popup__input_link_input");
+const inputUserName = formEdit.querySelector(".popup__input_username_input");
+const inputPosition = formEdit.querySelector(".popup__input_position_input");
+const inputTitle = formAdd.querySelector(".popup__input_title_input");
+const inputLink = formAdd.querySelector(".popup__input_link_input");
 
+/*GET VALUES FROM DOCUMENT */
 const userName = document.querySelector(".profile__username");
 const position = document.querySelector(".profile__position");
 const popupImgImage = popupImg.querySelector(".popup__image");
@@ -54,6 +57,8 @@ initialCards.forEach((item) => {
 });
 
 /*DEFINE FUNCTIONS FOR LISTENERS*/
+
+/*FUNC TO LISTEN ESC BUTTON */
 function closeByEsc(evt) {
   if (evt.key === "Escape") {
     const openPopup = document.querySelector(".popup_opened");
@@ -61,14 +66,15 @@ function closeByEsc(evt) {
   }
 }
 
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", closeByEsc);
-}
-
+/*OPEN POPUPS */
 function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeByEsc);
+}
+
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closeByEsc);
 }
 
 function openPopupEdit() {
@@ -80,11 +86,12 @@ function openPopupEdit() {
 function openPopupImage(place) {
   const image = place.src;
   const title = place.alt;
-  popupImgTitle.textContent = title.textContent;
+  popupImgTitle.textContent = title;
   popupImgImage.src = image;
   openPopup(popupImg);
 }
 
+/*SUBMIT POPUPS */
 function submitPopupEdit(evt) {
   evt.preventDefault();
   userName.textContent = inputUserName.value;
@@ -114,12 +121,11 @@ function placeDelete(place) {
 
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {
-  const form = document.forms.add_form;
   const input = Array.from(
-    form.querySelectorAll(settingsValidate.inputSelector)
+    formAdd.querySelectorAll(settingsValidate.inputSelector)
   );
   input.forEach((inputElement) => {
-    hideInputError(form, inputElement, settingsValidate);
+    hideInputError(formAdd, inputElement, settingsValidate);
   });
   openPopup(popupAdd);
 });
@@ -128,15 +134,14 @@ closeButtonPopupAdd.addEventListener("click", () => {
   closePopup(popupAdd);
 });
 
-popupFormAdd.addEventListener("submit", submitPopupAdd);
+formAdd.addEventListener("submit", submitPopupAdd);
 
 profileButtonEdit.addEventListener("click", () => {
-  const form = document.forms.edit_profile;
   const input = Array.from(
-    form.querySelectorAll(settingsValidate.inputSelector)
+    formEdit.querySelectorAll(settingsValidate.inputSelector)
   );
   input.forEach((inputElement) => {
-    hideInputError(form, inputElement, settingsValidate);
+    hideInputError(formEdit, inputElement, settingsValidate);
   });
   openPopupEdit();
 });
@@ -145,7 +150,7 @@ closeButtonPopupEdit.addEventListener("click", () => {
   closePopup(popupEdit);
 });
 
-popupFormEdit.addEventListener("submit", submitPopupEdit);
+formEdit.addEventListener("submit", submitPopupEdit);
 
 closeButtonPopupImg.addEventListener("click", () => {
   closePopup(popupImg);
