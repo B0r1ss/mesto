@@ -1,4 +1,4 @@
-const settingsValidate = {
+export const settingsValidate = {
   formSelector: ".form",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",

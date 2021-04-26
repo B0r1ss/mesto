@@ -1,5 +1,9 @@
-import { Card } from "./Cards.js"
+import { Card } from "./Cards.js";
+import { FormValidator } from "./FormValidator.js";
+import { settingsValidate } from "./settings.js";
+import { initialCards } from "./initialCards.js";
 
+/*VAR'S */
 const elementsList = document.querySelector(".elements__list");
 const profileButtonAdd = document.querySelector(".profile__button_add");
 const profileButtonEdit = document.querySelector(".profile__button_edit");
@@ -9,8 +13,8 @@ const popupEdit = document.querySelector(".popup_edit");
 const popupImg = document.querySelector(".popup_img");
 
 /*GET FORMS*/
-const formAdd = document.forms.add_form
-const formEdit = document.forms.edit_profile
+const formAdd = document.forms.add_form;
+const formEdit = document.forms.edit_profile;
 
 /*CLOSE BUTTONS POPUP */
 const closeButtonPopupAdd = popupAdd.querySelector(".popup__close-button");
@@ -28,19 +32,19 @@ const position = document.querySelector(".profile__position");
 const popupImgImage = popupImg.querySelector(".popup__image");
 const popupImgTitle = popupImg.querySelector(".popup__title-image");
 
-
+/*OPEN IMAGE POPUP */
 function openPopupImage(place) {
-  console.log("ddddddd", place)
   const image = place.src;
   const title = place.alt;
   popupImgTitle.textContent = title;
   popupImgImage.src = image;
   openPopup(popupImg);
 }
-/*ADD CARDS FROM VAR'S */
+
+/*ADD CARDS FROM VARS, CLASS CARD*/
 initialCards.forEach((item) => {
-  const card = new Card(item, "#card", openPopupImage());
-  const cardElement = card.generateCard()
+  const card = new Card(item, "#card");
+  const cardElement = card.generateCard();
   elementsList.append(cardElement);
 });
 
@@ -71,8 +75,6 @@ function openPopupEdit() {
   inputPosition.value = position.textContent;
 }
 
-
-
 /*SUBMIT POPUPS */
 function submitPopupEdit(evt) {
   evt.preventDefault();
@@ -90,13 +92,39 @@ function submitPopupAdd(evt) {
     settingsValidate.submitButtonSelector
   );
   const obj = { name: inputTitle.value, link: inputLink.value };
-  const cardAdd = createCard(obj);
-  elementsList.prepend(cardAdd);
+  const card = new Card(obj, "#card");
+  const cardElement = card.generateCard();
+  elementsList.prepend(cardElement);
   closePopup(popupAdd);
   inputTitle.closest("form").reset();
   setButtonState(inputList, buttonElement, settingsValidate);
 }
 
+/*SET BUTTON STATE*/
+function setButtonState(inputList, buttonElement, settings) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.setAttribute("disabled", "disabled");
+    buttonElement.classList.add(settings.inactiveButtonClass);
+  } else {
+    buttonElement.classList.remove(settings.inactiveButtonClass);
+    buttonElement.removeAttribute("disabled");
+  }
+}
+
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+}
+
+/*CHANGE VISIBLE OF TOGGLEs*/
+
+function hideInputError(formElement, inputElement, settings) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove(settings.inputErrorClass);
+  errorElement.classList.remove(settings.errorClass);
+  errorElement.textContent = "";
+}
 
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {
@@ -139,4 +167,19 @@ document.addEventListener("click", (evt) => {
   if (evt.target.classList.contains("popup_opened")) {
     closePopup(evt.target);
   }
+});
+
+document.addEventListener("click", (evt) => {
+  if (evt.target.classList.contains("place__image")) {
+    openPopupImage(evt.target);
+  }
+});
+
+/*ADD VALIDATOR FOR ALL FORMS, CLASS FORMVALIDATOR*/
+const formList = Array.from(
+  document.querySelectorAll(settingsValidate.formSelector)
+);
+formList.forEach((formElement) => {
+  const validator = new FormValidator(settingsValidate, formElement);
+  validator.enableValidation();
 });

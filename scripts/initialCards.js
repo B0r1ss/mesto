@@ -1,5 +1,5 @@
 /*DEFINE VAR*/
-const initialCards = [
+export const initialCards = [
   {
     name: "Архыз",
     link:
