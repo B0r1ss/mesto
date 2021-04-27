@@ -2,8 +2,9 @@ export class Card {
   constructor(data, cardSelector, openPopupImage) {
     this._data = data;
     this._cardSelector = cardSelector;
-    this._openPoputImage = openPopupImage;
+    this._openPopupImage = openPopupImage;
   }
+
   _getTemplate() {
     const cardTemplate = document
       .querySelector(this._cardSelector)
@@ -24,19 +25,22 @@ export class Card {
   _setEventListeners() {
     this._element
       .querySelector(".place__like-button")
-      .addEventListener("click", function (evt) {
-        evt.target.classList.toggle("place__like-button_enable");
-      });
+      .addEventListener("click", this._enableLike);
 
     this._element
       .querySelector(".place__delete-button")
-      .addEventListener("click", function (evt) {
-        evt.target.closest(".place").remove();
-      });
+      .addEventListener("click", this._removeCard);
+
+    this._element
+      .querySelector(".place__image")
+      .addEventListener("click", this._openPopupImage);
   }
 
-  _openPopupImage() {
-    document.querySelector(".popup__title-image").textContent = this._data.name;
-    document.querySelector(".popup__image").src = this._data.link;
+  _enableLike(evt) {
+    evt.target.classList.toggle("place__like-button_enable");
+  }
+
+  _removeCard(evt) {
+    evt.target.closest(".place").remove();
   }
 }

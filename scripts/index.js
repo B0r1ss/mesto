@@ -31,19 +31,18 @@ const userName = document.querySelector(".profile__username");
 const position = document.querySelector(".profile__position");
 const popupImgImage = popupImg.querySelector(".popup__image");
 const popupImgTitle = popupImg.querySelector(".popup__title-image");
-
-/*OPEN IMAGE POPUP */
-function openPopupImage(place) {
-  const image = place.src;
-  const title = place.alt;
-  popupImgTitle.textContent = title;
-  popupImgImage.src = image;
-  openPopup(popupImg);
-}
+/*CRETE INSTANCE VALIDATOR */
+const validator = new FormValidator(settingsValidate, "");
 
 /*ADD CARDS FROM VARS, CLASS CARD*/
 initialCards.forEach((item) => {
-  const card = new Card(item, "#card");
+  const card = new Card(item, "#card", (place) => {
+    const image = place.target.src;
+    const title = place.target.alt;
+    popupImgTitle.textContent = title;
+    popupImgImage.src = image;
+    openPopup(popupImg);
+  });
   const cardElement = card.generateCard();
   elementsList.append(cardElement);
 });
@@ -97,33 +96,7 @@ function submitPopupAdd(evt) {
   elementsList.prepend(cardElement);
   closePopup(popupAdd);
   inputTitle.closest("form").reset();
-  setButtonState(inputList, buttonElement, settingsValidate);
-}
-
-/*SET BUTTON STATE*/
-function setButtonState(inputList, buttonElement, settings) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.setAttribute("disabled", "disabled");
-    buttonElement.classList.add(settings.inactiveButtonClass);
-  } else {
-    buttonElement.classList.remove(settings.inactiveButtonClass);
-    buttonElement.removeAttribute("disabled");
-  }
-}
-
-function hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-}
-
-/*CHANGE VISIBLE OF TOGGLEs*/
-
-function hideInputError(formElement, inputElement, settings) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(settings.inputErrorClass);
-  errorElement.classList.remove(settings.errorClass);
-  errorElement.textContent = "";
+  validator.setButtonState(inputList, buttonElement, settingsValidate);
 }
 
 /*ADD LISTENERS */
@@ -132,7 +105,7 @@ profileButtonAdd.addEventListener("click", () => {
     formAdd.querySelectorAll(settingsValidate.inputSelector)
   );
   input.forEach((inputElement) => {
-    hideInputError(formAdd, inputElement, settingsValidate);
+    validator.hideInputError(formAdd, inputElement, settingsValidate);
   });
   openPopup(popupAdd);
 });
@@ -148,7 +121,7 @@ profileButtonEdit.addEventListener("click", () => {
     formEdit.querySelectorAll(settingsValidate.inputSelector)
   );
   input.forEach((inputElement) => {
-    hideInputError(formEdit, inputElement, settingsValidate);
+    validator.hideInputError(formEdit, inputElement, settingsValidate);
   });
   openPopupEdit();
 });
@@ -166,12 +139,6 @@ closeButtonPopupImg.addEventListener("click", () => {
 document.addEventListener("click", (evt) => {
   if (evt.target.classList.contains("popup_opened")) {
     closePopup(evt.target);
-  }
-});
-
-document.addEventListener("click", (evt) => {
-  if (evt.target.classList.contains("place__image")) {
-    openPopupImage(evt.target);
   }
 });
 

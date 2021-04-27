@@ -11,26 +11,30 @@ export class FormValidator {
     this._buttonElement = this._formElement.querySelector(
       this._settingsValidate.submitButtonSelector
     );
-    this._setButtonState();
+    this.setButtonState(
+      this._inputList,
+      this._buttonElement,
+      this._settingsValidate
+    );
     this._inputList.forEach((element) => {
       element.addEventListener("input", () => {
         this._isValid(element);
-        this._setButtonState();
+        this.setButtonState(
+          this._inputList,
+          this._buttonElement,
+          this._settingsValidate
+        );
       });
     });
   }
 
-  _setButtonState() {
-    if (this._hasInvalidInput(this._inputList)) {
-      this._buttonElement.setAttribute("disabled", "disabled");
-      this._buttonElement.classList.add(
-        this._settingsValidate.inactiveButtonClass
-      );
+  setButtonState(inputList, buttonElement, settings) {
+    if (this._hasInvalidInput(inputList)) {
+      buttonElement.setAttribute("disabled", "disabled");
+      buttonElement.classList.add(settings.inactiveButtonClass);
     } else {
-      this._buttonElement.classList.remove(
-        this._settingsValidate.inactiveButtonClass
-      );
-      this._buttonElement.removeAttribute("disabled");
+      buttonElement.classList.remove(settings.inactiveButtonClass);
+      buttonElement.removeAttribute("disabled");
     }
   }
 
@@ -42,7 +46,7 @@ export class FormValidator {
         this._settingsValidate
       );
     } else {
-      this._hideInputError(
+      this.hideInputError(
         this._formElement,
         inputElement,
         this._settingsValidate
@@ -57,7 +61,7 @@ export class FormValidator {
     errorElement.classList.add(settings.errorClass);
   }
 
-  _hideInputError(formElement, inputElement, settings) {
+  hideInputError(formElement, inputElement, settings) {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(settings.inputErrorClass);
     errorElement.classList.remove(settings.errorClass);
