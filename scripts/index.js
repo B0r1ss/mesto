@@ -91,7 +91,13 @@ function submitPopupAdd(evt) {
     settingsValidate.submitButtonSelector
   );
   const obj = { name: inputTitle.value, link: inputLink.value };
-  const card = new Card(obj, "#card");
+  const card = new Card(obj, "#card", (place) => {
+    const image = place.target.src;
+    const title = place.target.alt;
+    popupImgTitle.textContent = title;
+    popupImgImage.src = image;
+    openPopup(popupImg);
+  });
   const cardElement = card.generateCard();
   elementsList.prepend(cardElement);
   closePopup(popupAdd);
