@@ -31,18 +31,19 @@ const userName = document.querySelector(".profile__username");
 const position = document.querySelector(".profile__position");
 const popupImgImage = popupImg.querySelector(".popup__image");
 const popupImgTitle = popupImg.querySelector(".popup__title-image");
-/*CRETE INSTANCE VALIDATOR */
+/*CRETE INSTANCE VALIDATOR and CARD*/
 const validator = new FormValidator(settingsValidate, "");
+const card = new Card("", "#card", (place) => {
+  const image = place.target.src;
+  const title = place.target.alt;
+  popupImgTitle.textContent = title;
+  popupImgImage.src = image;
+  openPopup(popupImg);
+});
 
 /*ADD CARDS FROM VARS, CLASS CARD*/
 initialCards.forEach((item) => {
-  const card = new Card(item, "#card", (place) => {
-    const image = place.target.src;
-    const title = place.target.alt;
-    popupImgTitle.textContent = title;
-    popupImgImage.src = image;
-    openPopup(popupImg);
-  });
+  card._data=item;
   const cardElement = card.generateCard();
   elementsList.append(cardElement);
 });
@@ -91,13 +92,7 @@ function submitPopupAdd(evt) {
     settingsValidate.submitButtonSelector
   );
   const obj = { name: inputTitle.value, link: inputLink.value };
-  const card = new Card(obj, "#card", (place) => {
-    const image = place.target.src;
-    const title = place.target.alt;
-    popupImgTitle.textContent = title;
-    popupImgImage.src = image;
-    openPopup(popupImg);
-  });
+  card._data=obj;
   const cardElement = card.generateCard();
   elementsList.prepend(cardElement);
   closePopup(popupAdd);
@@ -153,6 +148,6 @@ const formList = Array.from(
   document.querySelectorAll(settingsValidate.formSelector)
 );
 formList.forEach((formElement) => {
-  const validator = new FormValidator(settingsValidate, formElement);
+  validator._formElement=formElement;
   validator.enableValidation();
 });
