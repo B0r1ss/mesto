@@ -43,7 +43,7 @@ const card = new Card("", "#card", (place) => {
 
 /*ADD CARDS FROM VARS, CLASS CARD*/
 initialCards.forEach((item) => {
-  card._data=item;
+  card.data=item;
   const cardElement = card.generateCard();
   elementsList.append(cardElement);
 });
@@ -92,7 +92,7 @@ function submitPopupAdd(evt) {
     settingsValidate.submitButtonSelector
   );
   const obj = { name: inputTitle.value, link: inputLink.value };
-  card._data=obj;
+  card.data=obj;
   const cardElement = card.generateCard();
   elementsList.prepend(cardElement);
   closePopup(popupAdd);
@@ -148,6 +148,6 @@ const formList = Array.from(
   document.querySelectorAll(settingsValidate.formSelector)
 );
 formList.forEach((formElement) => {
-  validator._formElement=formElement;
-  validator.enableValidation();
+  const validatorForm = new FormValidator(settingsValidate, formElement);
+  validatorForm.enableValidation();
 });

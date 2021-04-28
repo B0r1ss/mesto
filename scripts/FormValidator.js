@@ -18,7 +18,6 @@ export class FormValidator {
     );
     this._inputList.forEach((element) => {
       element.addEventListener("input", () => {
-        console.log("aasdafadf", element)
         this._isValid(element);
         this.setButtonState(
           this._inputList,
@@ -64,7 +63,6 @@ export class FormValidator {
 
   hideInputError(formElement, inputElement, settings) {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    console.log("form element", formElement, "input element", inputElement.id)
     inputElement.classList.remove(settings.inputErrorClass);
     errorElement.classList.remove(settings.errorClass);
     errorElement.textContent = "";
