@@ -31,8 +31,7 @@ const userName = document.querySelector(".profile__username");
 const position = document.querySelector(".profile__position");
 const popupImgImage = popupImg.querySelector(".popup__image");
 const popupImgTitle = popupImg.querySelector(".popup__title-image");
-/*CRETE INSTANCE VALIDATOR and CARD*/
-const validator = new FormValidator(settingsValidate, "");
+/*CRETE INSTANCE OF CARD*/
 const card = new Card("", "#card", (place) => {
   const image = place.target.src;
   const title = place.target.alt;
@@ -97,17 +96,22 @@ function submitPopupAdd(evt) {
   elementsList.prepend(cardElement);
   closePopup(popupAdd);
   inputTitle.closest("form").reset();
-  validator.setButtonState(inputList, buttonElement, settingsValidate);
+  validatorFormAdd.setButtonState(inputList, buttonElement, settingsValidate);
+}
+
+/*GET INPUTS FROM FORM AND HIDE INPUTS ERROR */
+function hideInputsError(form) {
+  const input = Array.from(
+    form.querySelectorAll(settingsValidate.inputSelector)
+  );
+  input.forEach((inputElement) => {
+    validatorFormEdit.hideInputError(formAdd, inputElement, settingsValidate);
+  });
 }
 
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {
-  const input = Array.from(
-    formAdd.querySelectorAll(settingsValidate.inputSelector)
-  );
-  input.forEach((inputElement) => {
-    validator.hideInputError(formAdd, inputElement, settingsValidate);
-  });
+  hideInputsError(formAdd);
   openPopup(popupAdd);
 });
 
@@ -118,12 +122,7 @@ closeButtonPopupAdd.addEventListener("click", () => {
 formAdd.addEventListener("submit", submitPopupAdd);
 
 profileButtonEdit.addEventListener("click", () => {
-  const input = Array.from(
-    formEdit.querySelectorAll(settingsValidate.inputSelector)
-  );
-  input.forEach((inputElement) => {
-    validator.hideInputError(formEdit, inputElement, settingsValidate);
-  });
+  hideInputsError(formEdit);
   openPopupEdit();
 });
 
@@ -144,10 +143,7 @@ document.addEventListener("click", (evt) => {
 });
 
 /*ADD VALIDATOR FOR ALL FORMS, CLASS FORMVALIDATOR*/
-const formList = Array.from(
-  document.querySelectorAll(settingsValidate.formSelector)
-);
-formList.forEach((formElement) => {
-  const validatorForm = new FormValidator(settingsValidate, formElement);
-  validatorForm.enableValidation();
-});
+const validatorFormAdd = new FormValidator(settingsValidate, formAdd);
+validatorFormAdd.enableValidation()
+const validatorFormEdit = new FormValidator(settingsValidate, formEdit)
+validatorFormEdit.enableValidation()
