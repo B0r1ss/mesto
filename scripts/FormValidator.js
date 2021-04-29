@@ -40,32 +40,38 @@ export class FormValidator {
 
   _isValid(inputElement) {
     if (!inputElement.validity.valid) {
-      this._showInputError(
-        this._formElement,
-        inputElement,
-        this._settingsValidate
-      );
+      this._showInputError(this._formElement);
     } else {
-      this.hideInputError(
-        this._formElement,
-        inputElement,
-        this._settingsValidate
-      );
+      this.hideInputError(this._formElement);
     }
   }
 
-  _showInputError(formElement, inputElement, settings) {
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.add(settings.inputErrorClass);
-    errorElement.textContent = inputElement.validationMessage;
-    errorElement.classList.add(settings.errorClass);
+  _showInputError(formElement) {
+    const inputs = Array.from(
+      formElement.querySelectorAll(this._settingsValidate.inputSelector)
+    );
+    inputs.forEach((inputElement) => {
+      const errorElement = formElement.querySelector(
+        `.${inputElement.id}-error`
+      );
+      inputElement.classList.add(this._settingsValidate.inputErrorClass);
+      errorElement.textContent = inputElement.validationMessage;
+      errorElement.classList.add(this._settingsValidate.errorClass);
+    });
   }
 
-  hideInputError(formElement, inputElement, settings) {
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(settings.inputErrorClass);
-    errorElement.classList.remove(settings.errorClass);
-    errorElement.textContent = "";
+  hideInputError(formElement) {
+    const inputs = Array.from(
+      formElement.querySelectorAll(this._settingsValidate.inputSelector)
+    );
+    inputs.forEach((inputElement) => {
+      const errorElement = formElement.querySelector(
+        `.${inputElement.id}-error`
+      );
+      inputElement.classList.remove(this._settingsValidate.inputErrorClass);
+      errorElement.classList.remove(this._settingsValidate.errorClass);
+      errorElement.textContent = "";
+    });
   }
 
   _hasInvalidInput(inputList) {

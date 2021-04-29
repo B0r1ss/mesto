@@ -31,18 +31,22 @@ const userName = document.querySelector(".profile__username");
 const position = document.querySelector(".profile__position");
 const popupImgImage = popupImg.querySelector(".popup__image");
 const popupImgTitle = popupImg.querySelector(".popup__title-image");
+
 /*CRETE INSTANCE OF CARD*/
-const card = new Card("", "#card", (place) => {
-  const image = place.target.src;
-  const title = place.target.alt;
-  popupImgTitle.textContent = title;
-  popupImgImage.src = image;
-  openPopup(popupImg);
-});
+function createCard(item, template) {
+  const card = new Card(item, template, (place) => {
+    const image = place.target.src;
+    const title = place.target.alt;
+    popupImgTitle.textContent = title;
+    popupImgImage.src = image;
+    openPopup(popupImg);
+  });
+  return card;
+}
 
 /*ADD CARDS FROM VARS, CLASS CARD*/
 initialCards.forEach((item) => {
-  card.data=item;
+  const card = createCard(item, "#card");
   const cardElement = card.generateCard();
   elementsList.append(cardElement);
 });
@@ -91,7 +95,7 @@ function submitPopupAdd(evt) {
     settingsValidate.submitButtonSelector
   );
   const obj = { name: inputTitle.value, link: inputLink.value };
-  card.data=obj;
+  const card = createCard(obj, "#card");
   const cardElement = card.generateCard();
   elementsList.prepend(cardElement);
   closePopup(popupAdd);
@@ -99,19 +103,9 @@ function submitPopupAdd(evt) {
   validatorFormAdd.setButtonState(inputList, buttonElement, settingsValidate);
 }
 
-/*GET INPUTS FROM FORM AND HIDE INPUTS ERROR */
-function hideInputsError(form) {
-  const input = Array.from(
-    form.querySelectorAll(settingsValidate.inputSelector)
-  );
-  input.forEach((inputElement) => {
-    validatorFormEdit.hideInputError(formAdd, inputElement, settingsValidate);
-  });
-}
-
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {
-  hideInputsError(formAdd);
+  validatorFormAdd.hideInputError(formAdd);
   openPopup(popupAdd);
 });
 
@@ -122,7 +116,7 @@ closeButtonPopupAdd.addEventListener("click", () => {
 formAdd.addEventListener("submit", submitPopupAdd);
 
 profileButtonEdit.addEventListener("click", () => {
-  hideInputsError(formEdit);
+  validatorFormEdit.hideInputError(formEdit);
   openPopupEdit();
 });
 
@@ -144,6 +138,6 @@ document.addEventListener("click", (evt) => {
 
 /*ADD VALIDATOR FOR ALL FORMS, CLASS FORMVALIDATOR*/
 const validatorFormAdd = new FormValidator(settingsValidate, formAdd);
-validatorFormAdd.enableValidation()
-const validatorFormEdit = new FormValidator(settingsValidate, formEdit)
-validatorFormEdit.enableValidation()
+validatorFormAdd.enableValidation();
+const validatorFormEdit = new FormValidator(settingsValidate, formEdit);
+validatorFormEdit.enableValidation();
