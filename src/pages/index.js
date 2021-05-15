@@ -1,11 +1,12 @@
-import { Card } from "./Cards.js";
-import PopupWithImage from "./PopupWithImage.js"
-import PopupWithForm from "./PopupWithForm.js"
-import UserInfo from "./UserInfo.js"
+import './index.css';
 
-import { FormValidator } from "./FormValidator.js";
-import { settingsValidate } from "./settings.js";
-import { initialCards } from "./initialCards.js";
+import Card from "../components/Cards.js";
+import PopupWithImage from "../components/PopupWithImage.js"
+import PopupWithForm from "../components/PopupWithForm.js"
+import UserInfo from "../components/UserInfo.js"
+import FormValidator from "../components/FormValidator.js";
+import { settingsValidate } from "../components/settings.js";
+import { initialCards } from "../components/initialCards.js";
 
 /*VAR'S */
 const elementsList = document.querySelector(".elements__list");
