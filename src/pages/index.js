@@ -1,6 +1,7 @@
 import './index.css';
 
 import Card from "../components/Cards.js";
+import Section from '../components/Section';
 import PopupWithImage from "../components/PopupWithImage.js"
 import PopupWithForm from "../components/PopupWithForm.js"
 import UserInfo from "../components/UserInfo.js"
@@ -28,11 +29,18 @@ function createCard(item, template) {
 }
 
 /*ADD CARDS FROM VARS, CLASS CARD*/
-initialCards.forEach((item) => {
-  const card = createCard(item, "#card");
-  const cardElement = card.generateCard();
-  elementsList.append(cardElement);
-});
+const addCards=new Section(
+  {
+    data: initialCards, 
+    renderer: (item)=>{
+      const card = createCard(item, "#card");
+      const cardElement = card.generateCard();
+      elementsList.append(cardElement);
+    }
+  }, 
+  ".elements__list")
+
+addCards.renderItems()
 
 /*POPUPS */
 
@@ -41,11 +49,13 @@ const popupWithImage = new PopupWithImage(".popup_img")
 popupWithImage.setEventListeners()
 
 /*CREATE INSTANCE OF POPUP ADD*/
-const popupWithFormAdd = new PopupWithForm(".popup_add", (obj) => {
-  const card = createCard(obj, "#card");
-  const cardElement = card.generateCard();
-  elementsList.prepend(cardElement);
-})
+const popupWithFormAdd = new PopupWithForm(
+  ".popup_add", 
+  (obj) => {
+    const card = createCard(obj, "#card");
+    const cardElement = card.generateCard();
+    addCards.addItem(cardElement, false)
+  })
 popupWithFormAdd.setEventListeners()
 
 /* CREATE INSTANCE POPUP EDIT*/
@@ -62,7 +72,6 @@ profileButtonAdd.addEventListener("click", () => {
   popupWithFormAdd.open()
 });
 
-
 profileButtonEdit.addEventListener("click", () => {
   validatorFormEdit.hideInputError(formEdit);
   const info = userInfo.getUserInfo()
@@ -74,5 +83,6 @@ profileButtonEdit.addEventListener("click", () => {
 /*ADD VALIDATOR FOR ALL FORMS, CLASS FORMVALIDATOR*/
 const validatorFormAdd = new FormValidator(settingsValidate, formAdd);
 validatorFormAdd.enableValidation();
+
 const validatorFormEdit = new FormValidator(settingsValidate, formEdit);
 validatorFormEdit.enableValidation();
