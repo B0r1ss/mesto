@@ -6,13 +6,13 @@ export default class UserInfo {
 
   getUserInfo() {
     this._userInfo={}
-    this._userInfo["username"] = document.querySelector(this._userName)
-    this._userInfo["about"] = document.querySelector(this._aboutUser)
+    this._userInfo["username"] = document.querySelector(this._userName).textContent
+    this._userInfo["position"] = document.querySelector(this._aboutUser).textContent
     return this._userInfo
   }
 
-  setUserInfo({username, about}) {
+  setUserInfo({username, position}) {
     document.querySelector(this._userName).textContent=username
-    document.querySelector(this._aboutUser).textContent=about
+    document.querySelector(this._aboutUser).textContent=position
   }
 }

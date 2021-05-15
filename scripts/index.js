@@ -12,39 +12,13 @@ const elementsList = document.querySelector(".elements__list");
 const profileButtonAdd = document.querySelector(".profile__button_add");
 const profileButtonEdit = document.querySelector(".profile__button_edit");
 
-const popupAdd = document.querySelector(".popup_add");
-const popupEdit = document.querySelector(".popup_edit");
-const popupImg = document.querySelector(".popup_img");
-
 /*GET FORMS*/
 const formAdd = document.forms.add_form;
 const formEdit = document.forms.edit_profile;
 
-/*CLOSE BUTTONS POPUP */
-const closeButtonPopupEdit = popupEdit.querySelector(".popup__close-button");
-
+/*GET INPUTS FROM EDIT FORM*/
 const inputUserName = formEdit.querySelector(".popup__input_username_input");
 const inputPosition = formEdit.querySelector(".popup__input_position_input");
-
-/*GET VALUES FROM DOCUMENT */
-const userName = document.querySelector(".profile__username");
-const position = document.querySelector(".profile__position");
-
-/*ADD POPUP CLASS */
-
-const popupWithImage = new PopupWithImage(".popup_img")
-popupWithImage.setEventListeners()
-
-const popupWithForm = new PopupWithForm(".popup_add", (obj) => {
-  const buttonElement = popupAdd.querySelector(
-    settingsValidate.submitButtonSelector
-  );
-  const card = createCard(obj, "#card");
-  const cardElement = card.generateCard();
-  elementsList.prepend(cardElement);
-})
-popupWithForm.setEventListeners()
-
 
 /*CRETE INSTANCE OF CARD*/
 function createCard(item, template) {
@@ -59,52 +33,45 @@ initialCards.forEach((item) => {
   elementsList.append(cardElement);
 });
 
-/*DEFINE FUNCTIONS FOR LISTENERS*/
+/*POPUPS */
 
+/*CREATE INSTANCE OF POPUP WITH IMG */
+const popupWithImage = new PopupWithImage(".popup_img")
+popupWithImage.setEventListeners()
 
-/*OPEN POPUPS */
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-}
-
-
-function openPopupEdit() {
-  openPopup(popupEdit);
-  inputUserName.value = userName.textContent;
-  inputPosition.value = position.textContent;
-}
-
-const popupEditWithForm = new PopupWithForm(".popup_edit", ()=>{
-  const userInfo = new UserInfo(".profile__username", ".profile__position")
-  const info=userInfo.getUserInfo()
-  userInfo.setUserInfo(info)
+/*CREATE INSTANCE OF POPUP ADD*/
+const popupWithFormAdd = new PopupWithForm(".popup_add", (obj) => {
+  const card = createCard(obj, "#card");
+  const cardElement = card.generateCard();
+  elementsList.prepend(cardElement);
 })
-popupEditWithForm.setEventListeners()
+popupWithFormAdd.setEventListeners()
 
+/* CREATE INSTANCE POPUP EDIT*/
+const userInfo = new UserInfo({userName: ".profile__username", aboutUser: ".profile__position"})
 
+const popupWithFormEdit = new PopupWithForm(".popup_edit", (obj)=>{
+  userInfo.setUserInfo(obj)
+})
+popupWithFormEdit.setEventListeners()
 
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {
   validatorFormAdd.hideInputError(formAdd);
-  popupWithForm.open()
+  popupWithFormAdd.open()
 });
-
-
 
 
 profileButtonEdit.addEventListener("click", () => {
   validatorFormEdit.hideInputError(formEdit);
-  openPopupEdit();
+  const info = userInfo.getUserInfo()
+  inputUserName.value = info.username;
+  inputPosition.value = info.position;
+  popupWithFormEdit.open()
 });
-
-closeButtonPopupEdit.addEventListener("click", () => {
-  closePopup(popupEdit);
-});
-
 
 /*ADD VALIDATOR FOR ALL FORMS, CLASS FORMVALIDATOR*/
 const validatorFormAdd = new FormValidator(settingsValidate, formAdd);
 validatorFormAdd.enableValidation();
 const validatorFormEdit = new FormValidator(settingsValidate, formEdit);
 validatorFormEdit.enableValidation();
-

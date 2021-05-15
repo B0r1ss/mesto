@@ -6,4 +6,5 @@ venv/
 .vscode/
 settings.json
 node_modules/
+dist/
 .settings
