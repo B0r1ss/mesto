@@ -6,8 +6,8 @@ import PopupWithImage from "../components/PopupWithImage.js"
 import PopupWithForm from "../components/PopupWithForm.js"
 import UserInfo from "../components/UserInfo.js"
 import FormValidator from "../components/FormValidator.js";
-import { settingsValidate } from "../components/settings.js";
-import { initialCards } from "../components/initialCards.js";
+import { settingsValidate } from "../utils/settings.js";
+import { initialCards } from "../utils/initialCards.js";
 
 /*VAR'S */
 const elementsList = document.querySelector(".elements__list");
@@ -31,7 +31,6 @@ function createCard(item, template) {
 /*ADD CARDS FROM VARS, CLASS CARD*/
 const addCards=new Section(
   {
-    data: initialCards, 
     renderer: (item)=>{
       const card = createCard(item, "#card");
       const cardElement = card.generateCard();
@@ -40,7 +39,7 @@ const addCards=new Section(
   }, 
   ".elements__list")
 
-addCards.renderItems()
+addCards.renderItems(initialCards)
 
 /*POPUPS */
 
@@ -69,6 +68,7 @@ popupWithFormEdit.setEventListeners()
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {
   validatorFormAdd.hideInputError(formAdd);
+  validatorFormAdd.setButtonState()
   popupWithFormAdd.open()
 });
 
