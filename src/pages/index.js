@@ -1,5 +1,6 @@
 import './index.css';
 
+import Api from "../components/Api.js";
 import Card from "../components/Cards.js";
 import Section from '../components/Section';
 import PopupWithImage from "../components/PopupWithImage.js"
@@ -7,7 +8,6 @@ import PopupWithForm from "../components/PopupWithForm.js"
 import UserInfo from "../components/UserInfo.js"
 import FormValidator from "../components/FormValidator.js";
 import { settingsValidate } from "../utils/settings.js";
-import { initialCards } from "../utils/initialCards.js";
 
 /*VAR'S */
 const elementsList = document.querySelector(".elements__list");
@@ -39,7 +39,16 @@ const addCards=new Section(
   }, 
   ".elements__list")
 
-addCards.renderItems(initialCards)
+/*GET CARDS AND ADD IN PAGE*/
+const api = new Api("")
+
+
+api.getInitialCards()
+  .then(res =>{
+    addCards.renderItems(res)
+  })
+
+
 
 /*POPUPS */
 
@@ -61,6 +70,8 @@ popupWithFormAdd.setEventListeners()
 const userInfo = new UserInfo({userName: ".profile__username", aboutUser: ".profile__position"})
 
 const popupWithFormEdit = new PopupWithForm(".popup_edit", (obj)=>{
+  api.editProfileInfo(obj)
+  .then
   userInfo.setUserInfo(obj)
 })
 popupWithFormEdit.setEventListeners()
