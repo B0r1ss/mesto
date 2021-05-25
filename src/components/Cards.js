@@ -1,9 +1,9 @@
 export default class Card {
-  constructor(data, cardSelector, openPopupImage, setLike) {
+  constructor(data, cardSelector, {openPopupImage, handleLikeClick}) {
     this.data = data;
     this._cardSelector = cardSelector;
     this._openPopupImage = openPopupImage;
-    this._setLike = setLike;
+    this._handleLikeClick = handleLikeClick;
     this._element = this._getTemplate();
     this._imageElement = this._element.querySelector(".place__image");
     this._titleElement = this._element.querySelector(".place__title");
@@ -30,7 +30,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._likeButton.addEventListener("click", this._enableLike);
+    this._likeButton.addEventListener("click", this._handleLikeClick);
 
     this._deleteButton.addEventListener("click", this._removeCard);
 
@@ -39,7 +39,7 @@ export default class Card {
 
   _enableLike(evt) {
     evt.target.classList.toggle("place__like-button_enable");
-    this._setLike
+    this._setLike()
   }
 
   _removeCard(evt) {

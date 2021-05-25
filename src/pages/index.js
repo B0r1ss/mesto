@@ -39,13 +39,17 @@ function createCard(item, template) {
   const card = new Card(
     item,
     template,
-    () =>{
+    {
+    openPopupImage: () =>{
       popupWithImage.open(item.name, item.link)
     },
-    (evt)=>{
-      console.log('item')
-      api.setLike(item.id)
-    });
+    handleLikeClick: ()=>{
+      if (item.likes.contain(item.owner.name)) {
+   //     evt.target.classList.toggle("place__like-button_enable");
+      }
+      api.setLike(item["_id"]).then((res)=>{console.log(res)})
+    }
+  });
   return card;
 }
 

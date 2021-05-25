@@ -81,7 +81,7 @@ export default class Api {
     })
   }
 
-  setLike({cardId}) {
+  setLike(cardId) {
     return fetch(`https://mesto.nomoreparties.co/v1/cohort-24/cards/likes/${cardId}`, {
       method: "PUT",
       headers: {

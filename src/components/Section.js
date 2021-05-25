@@ -8,12 +8,7 @@ export default class Section {
 
   renderItems(cards) {
     cards.forEach(item => {
-      this._renderer(
-        {
-          name: item.name,
-          link: item.link,
-          likes: item.likes,
-        });
+      this._renderer(item);
     });
   }
 
