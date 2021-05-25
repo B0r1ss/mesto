@@ -22,9 +22,30 @@ const formEdit = document.forms.edit_profile;
 const inputUserName = formEdit.querySelector(".popup__input_username_input");
 const inputPosition = formEdit.querySelector(".popup__input_position_input");
 
+/*CREATE API INSTANCE */
+const api = new Api("")
+
+/*GET USER INFO AND ADD TO PAGE */
+api.getUserInfo()
+  .then((res)=>{
+    userInfo.setUserInfo(res)
+  })
+  .catch((err)=>{
+    console.log(`Error: ${err}`)
+  })
+
 /*CRETE INSTANCE OF CARD*/
 function createCard(item, template) {
-  const card = new Card(item, template, () =>{popupWithImage.open(item.name, item.link)});
+  const card = new Card(
+    item,
+    template,
+    () =>{
+      popupWithImage.open(item.name, item.link)
+    },
+    (evt)=>{
+      console.log('item')
+      api.setLike(item.id)
+    });
   return card;
 }
 
@@ -40,15 +61,13 @@ const addCards=new Section(
   ".elements__list")
 
 /*GET CARDS AND ADD IN PAGE*/
-const api = new Api("")
-
-
 api.getInitialCards()
   .then(res =>{
     addCards.renderItems(res)
   })
-
-
+  .catch((err)=>{
+    console.log(`Error: ${err}`)
+  })
 
 /*POPUPS */
 
@@ -60,9 +79,12 @@ popupWithImage.setEventListeners()
 const popupWithFormAdd = new PopupWithForm(
   ".popup_add", 
   (obj) => {
-    const card = createCard(obj, "#card");
-    const cardElement = card.generateCard();
-    addCards.addItem(cardElement, false)
+    api.addCard(obj)
+    .then((res)=>{
+      const card = createCard(res, "#card");
+      const cardElement = card.generateCard();
+      addCards.addItem(cardElement, false)
+    })
   })
 popupWithFormAdd.setEventListeners()
 
@@ -71,10 +93,15 @@ const userInfo = new UserInfo({userName: ".profile__username", aboutUser: ".prof
 
 const popupWithFormEdit = new PopupWithForm(".popup_edit", (obj)=>{
   api.editProfileInfo(obj)
-  .then
-  userInfo.setUserInfo(obj)
-})
+    .then((res)=>{
+      userInfo.setUserInfo(res)
+    })
+    .catch((err)=>{
+      console.log(`Error: ${err}`)
+    })
+  })
 popupWithFormEdit.setEventListeners()
+
 
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {

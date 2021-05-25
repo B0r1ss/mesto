@@ -20,8 +20,8 @@ export default class Api {
     })
   }
 
-  postCard({name, link}) {
-    fetch("https://mesto.nomoreparties.co/v1/cohort-24/cards", {
+  addCard({name, link}) {
+    return fetch("https://mesto.nomoreparties.co/v1/cohort-24/cards", {
       method: "POST",
       headers: {
         authorization: "0373998c-9611-494d-a876-3cfa268c14dc",
@@ -33,12 +33,12 @@ export default class Api {
       })
     })
     .then(res=>{
-      if (!res.ok) {
-        Promise.reject()
+      if (res.ok) {
+        return res.json()
       }
     })
     .catch(err => {
-      console.log(`Ошибка POST CARD запроса ${err}`)
+      Promise.reject(`Ошибка POST CARD запроса ${err}`)
     })
   }
 
@@ -51,35 +51,52 @@ export default class Api {
     })
     .then(res => {
       if (res.ok) {
-      return res.json()
-      } else {
-        Promise.reject()
+        return res.json()
       }
     })
     .catch(err => {
-      console.log(`Ошибка GET USER запроса ${err}`)
+      Promise.reject(`Ошибка GET USER запроса ${err}`)
     })
   }
 
-  editProfileInfo({name, link}) {
-    fetch("https://mesto.nomoreparties.co/v1/cohort-24/cards", {
+  editProfileInfo({username, position}) {
+    return fetch("https://mesto.nomoreparties.co/v1/cohort-24/users/me", {
       method: "PATCH",
       headers: {
         authorization: "0373998c-9611-494d-a876-3cfa268c14dc",
         "content-type": "application/json"
       },
       body: JSON.stringify({
-        "name": name,
-        "link": link
+        "name": username,
+        "about": position
       })
     })
     .then(res=>{
-      if (!res.ok) {
-        Promise.reject()
+      if (res.ok) {
+        return res.json()
       }
     })
     .catch(err => {
-      console.log(`Ошибка POST CARD запроса ${err}`)
+      Promise.reject(`Ошибка EDIT PROFILE запроса ${err}`)
+    })
+  }
+
+  setLike({cardId}) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-24/cards/likes/${cardId}`, {
+      method: "PUT",
+      headers: {
+        authorization: "0373998c-9611-494d-a876-3cfa268c14dc",
+        "content-type": "application/json"
+      },
+    })
+    .then(res=>{
+      console.log(res)
+      if (res.ok) {
+        return res.json()
+      }
+    })
+    .catch(err => {
+      Promise.reject(`Ошибка EDIT PROFILE запроса ${err}`)
     })
   }
 

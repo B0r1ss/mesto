@@ -12,6 +12,7 @@ export default class Section {
         {
           name: item.name,
           link: item.link,
+          likes: item.likes,
         });
     });
   }

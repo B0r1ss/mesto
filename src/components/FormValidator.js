@@ -2,15 +2,15 @@ export default class FormValidator {
   constructor(settingsValidate, formElement) {
     this._settingsValidate = settingsValidate;
     this._formElement = formElement;
-  }
-
-  _setEventListeners() {
     this._inputList = Array.from(
       this._formElement.querySelectorAll(this._settingsValidate.inputSelector)
     );
     this._buttonElement = this._formElement.querySelector(
       this._settingsValidate.submitButtonSelector
-    );
+    ); 
+  }
+
+  _setEventListeners() {
     this.setButtonState(
       this._inputList,
       this._buttonElement,

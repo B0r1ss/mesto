@@ -1,8 +1,15 @@
 export default class Card {
-  constructor(data, cardSelector, openPopupImage) {
+  constructor(data, cardSelector, openPopupImage, setLike) {
     this.data = data;
     this._cardSelector = cardSelector;
     this._openPopupImage = openPopupImage;
+    this._setLike = setLike;
+    this._element = this._getTemplate();
+    this._imageElement = this._element.querySelector(".place__image");
+    this._titleElement = this._element.querySelector(".place__title");
+    this._likeButton = this._element.querySelector(".place__like-button");
+    this._likeAmount = this._element.querySelector(".place__like-amount");
+    this._deleteButton = this._element.querySelector(".place__delete-button");
   }
 
   _getTemplate() {
@@ -14,30 +21,25 @@ export default class Card {
   }
 
   generateCard() {
-    this._element = this._getTemplate();
     this._setEventListeners();
-    this._element.querySelector(".place__image").src = this.data.link;
-    this._element.querySelector(".place__title").textContent = this.data.name;
-    this._element.querySelector(".place__image").alt = this.data.name;
+    this._imageElement.src = this.data.link;
+    this._titleElement.textContent = this.data.name;
+    this._imageElement.alt = this.data.name;
+    this._likeAmount.textContent = this.data.likes.length;
     return this._element;
   }
 
   _setEventListeners() {
-    this._element
-      .querySelector(".place__like-button")
-      .addEventListener("click", this._enableLike);
+    this._likeButton.addEventListener("click", this._enableLike);
 
-    this._element
-      .querySelector(".place__delete-button")
-      .addEventListener("click", this._removeCard);
+    this._deleteButton.addEventListener("click", this._removeCard);
 
-    this._element
-      .querySelector(".place__image")
-      .addEventListener("click", this._openPopupImage);
+    this._imageElement.addEventListener("click", this._openPopupImage);
   }
 
   _enableLike(evt) {
     evt.target.classList.toggle("place__like-button_enable");
+    this._setLike
   }
 
   _removeCard(evt) {
