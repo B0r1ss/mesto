@@ -42,6 +42,24 @@ export default class Api {
     })
   }
 
+  delCard(cardId) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-24/cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: "0373998c-9611-494d-a876-3cfa268c14dc",
+        "content-type": "application/json"
+      },
+    })
+    .then(res=>{
+      if (res.ok) {
+        return res.json()
+      }
+    })
+    .catch(err => {
+      Promise.reject(`Ошибка DEL CARD запроса ${err}`)
+    })
+  }
+
   getUserInfo() {
     return fetch("https://mesto.nomoreparties.co/v1/cohort-24/users/me", {
       method: "GET",
@@ -77,7 +95,7 @@ export default class Api {
       }
     })
     .catch(err => {
-      Promise.reject(`Ошибка EDIT PROFILE запроса ${err}`)
+      Promise.reject(`Ошибка EDIT PROFILE INFO запроса ${err}`)
     })
   }
 
@@ -90,15 +108,32 @@ export default class Api {
       },
     })
     .then(res=>{
-      console.log(res)
       if (res.ok) {
         return res.json()
       }
     })
     .catch(err => {
-      Promise.reject(`Ошибка EDIT PROFILE запроса ${err}`)
+      Promise.reject(`Ошибка SET LIKE запроса ${err}`)
     })
   }
 
+  
+  delLike(cardId) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-24/cards/likes/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: "0373998c-9611-494d-a876-3cfa268c14dc",
+        "content-type": "application/json"
+      },
+    })
+    .then(res=>{
+      if (res.ok) {
+        return res.json()
+      }
+    })
+    .catch(err => {
+      Promise.reject(`Ошибка DEL LIKE запроса ${err}`)
+    })
+  }
   // другие методы работы с API
 }

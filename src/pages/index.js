@@ -22,13 +22,26 @@ const formEdit = document.forms.edit_profile;
 const inputUserName = formEdit.querySelector(".popup__input_username_input");
 const inputPosition = formEdit.querySelector(".popup__input_position_input");
 
+/*VARS */
+let currentUser=[]
+
 /*CREATE API INSTANCE */
 const api = new Api("")
 
 /*GET USER INFO AND ADD TO PAGE */
 api.getUserInfo()
   .then((res)=>{
-    userInfo.setUserInfo(res)
+    currentUser=res
+    userInfo.setUserInfo(currentUser)
+  })
+  .catch((err)=>{
+    console.log(`Error: ${err}`)
+  })
+
+/*GET CARDS AND ADD IN PAGE*/
+api.getInitialCards()
+  .then(res =>{
+    addCards.renderItems(res)
   })
   .catch((err)=>{
     console.log(`Error: ${err}`)
@@ -39,17 +52,46 @@ function createCard(item, template) {
   const card = new Card(
     item,
     template,
+    currentUser,
     {
-    openPopupImage: () =>{
-      popupWithImage.open(item.name, item.link)
+      openPopupImage: () =>{
+        popupWithImage.open(item.name, item.link)
+      },
+
+      handleRemoveCard: (evt) =>{
+        api.delCard(item._id)
+        .then(()=>{
+          evt.target.closest(".place").remove();
+        })
+        .catch((err)=>{
+          console.log(`Error: ${err}`)
+        })
+      },
+
+      handleLike: (evt)=>{
+        const likeAmount = evt.target.closest(".place__likes").querySelector(".place__like-amount")
+        evt.target.classList.toggle("place__like-button_enable");
+        if ( evt.target.classList.contains("place__like-button_enable")) {
+          api.setLike(item["_id"])
+          .then((res)=>{
+            likeAmount.textContent =  res.likes.length
+          })
+          .catch((err)=>{
+            console.log(`Error: ${err}`)
+          })
+        } else {
+          api.delLike(item["_id"])
+          .then((res)=>{
+            likeAmount.textContent =  res.likes.length
+          })
+          .catch((err)=>{
+            console.log(`Error: ${err}`)
+          })
+        }
+      },
+
     },
-    handleLikeClick: ()=>{
-      if (item.likes.contain(item.owner.name)) {
-   //     evt.target.classList.toggle("place__like-button_enable");
-      }
-      api.setLike(item["_id"]).then((res)=>{console.log(res)})
-    }
-  });
+  );
   return card;
 }
 
@@ -63,15 +105,6 @@ const addCards=new Section(
     }
   }, 
   ".elements__list")
-
-/*GET CARDS AND ADD IN PAGE*/
-api.getInitialCards()
-  .then(res =>{
-    addCards.renderItems(res)
-  })
-  .catch((err)=>{
-    console.log(`Error: ${err}`)
-  })
 
 /*POPUPS */
 
@@ -93,7 +126,7 @@ const popupWithFormAdd = new PopupWithForm(
 popupWithFormAdd.setEventListeners()
 
 /* CREATE INSTANCE POPUP EDIT*/
-const userInfo = new UserInfo({userName: ".profile__username", aboutUser: ".profile__position"})
+const userInfo = new UserInfo({userName: ".profile__username", aboutUser: ".profile__position", userAvatar: ".profile__avatar"})
 
 const popupWithFormEdit = new PopupWithForm(".popup_edit", (obj)=>{
   api.editProfileInfo(obj)
@@ -105,6 +138,17 @@ const popupWithFormEdit = new PopupWithForm(".popup_edit", (obj)=>{
     })
   })
 popupWithFormEdit.setEventListeners()
+
+popupWithFormAvatar = new PopupWithForm(
+  ".popup_add", 
+  (obj) => {
+    api.addCard(obj)
+    .then((res)=>{
+      const card = createCard(res, "#card");
+      const cardElement = card.generateCard();
+      addCards.addItem(cardElement, false)
+    })
+  })
 
 
 /*ADD LISTENERS */
