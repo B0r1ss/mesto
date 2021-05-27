@@ -43,10 +43,7 @@ export default class FormValidator {
   }
 
   _showInputError(formElement) {
-    const inputs = Array.from(
-      formElement.querySelectorAll(this._settingsValidate.inputSelector)
-    );
-    inputs.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       const errorElement = formElement.querySelector(
         `.${inputElement.id}-error`
       );
@@ -57,10 +54,7 @@ export default class FormValidator {
   }
 
   hideInputError() {
-    const inputs = Array.from(
-      this._formElement.querySelectorAll(this._settingsValidate.inputSelector)
-    );
-    inputs.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       const errorElement = this._formElement.querySelector(
         `.${inputElement.id}-error`
       );

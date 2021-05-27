@@ -8,6 +8,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import FormValidator from "../components/FormValidator.js";
 import { settingsValidate } from "../utils/settings.js";
+import { constants } from "../utils/constants.js"
 
 /*VAR'S */
 const elementsList = document.querySelector(".elements__list");
@@ -18,6 +19,11 @@ const avatarEdit = document.querySelector(".profile__avatar");
 const avatarPopup = document.querySelector(".popup_avatar");
 const addPopup = document.querySelector(".popup_add");
 const editPopup = document.querySelector(".popup_edit");
+
+/*SAVE FORM BUTTONS*/
+const addSave = addPopup.querySelector(".popup__button");
+const editSave = editPopup.querySelector(".popup__button");
+const avatarSave = avatarPopup.querySelector(".popup__button"); 
 
 /*GET FORMS*/
 const formAdd = document.forms.add_form;
@@ -32,7 +38,11 @@ const inputPosition = formEdit.querySelector(".popup__input_position_input");
 let currentUser = [];
 
 /*CREATE API INSTANCE */
-const api = new Api("");
+const api = new Api(
+  {
+    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-24",
+    authKey: "0373998c-9611-494d-a876-3cfa268c14dc",
+  });
 
 /*GET USER INFO AND ADD TO PAGE */
 api
@@ -49,7 +59,7 @@ api
 api
   .getInitialCards()
   .then((res) => {
-    addCards.renderItems(res);
+    cardsContainer.renderItems(res);
   })
   .catch((err) => {
     console.log(`Error: ${err}`);
@@ -73,7 +83,7 @@ function createCard(item, template) {
         });
     },
 
-    handleLike: (evt) => {
+    handleLikeClick: (evt) => {
       const likeAmount = evt.target
         .closest(".place__likes")
         .querySelector(".place__like-amount");
@@ -103,12 +113,12 @@ function createCard(item, template) {
 }
 
 /*ADD CARDS FROM VARS, CLASS CARD*/
-const addCards = new Section(
+const cardsContainer = new Section(
   {
     renderer: (item) => {
       const card = createCard(item, "#card");
       const cardElement = card.generateCard();
-      elementsList.append(cardElement);
+      cardsContainer.addItem(cardElement);
     },
   },
   ".elements__list"
@@ -117,19 +127,19 @@ const addCards = new Section(
 /*POPUPS */
 
 /*CREATE INSTANCE OF POPUP WITH IMG */
-const popupWithImage = new PopupWithImage(".popup_img");
+const popupWithImage = new PopupWithImage(".popup_img", constants);
 popupWithImage.setEventListeners();
 
 /*CREATE INSTANCE OF POPUP ADD*/
-const popupWithFormAdd = new PopupWithForm(".popup_add", (obj) => {
-  const addSave = addPopup.querySelector(".popup__button");
+const popupWithFormAdd = new PopupWithForm(".popup_add", constants, (obj) => {
   addSave.textContent = "Сохранение...";
   api
     .addCard(obj)
     .then((res) => {
       const card = createCard(res, "#card");
       const cardElement = card.generateCard();
-      addCards.addItem(cardElement, false);
+      cardsContainer.addItem(cardElement, false);
+      popupWithFormAdd.close()
       addSave.textContent = "Сохраненить";
     })
     .catch((err) => {
@@ -145,13 +155,13 @@ const userInfo = new UserInfo({
   userAvatar: ".profile__avatar",
 });
 
-const popupWithFormEdit = new PopupWithForm(".popup_edit", (obj) => {
-  const editSave = editPopup.querySelector(".popup__button");
+const popupWithFormEdit = new PopupWithForm(".popup_edit", constants, (obj) => {
   editSave.textContent = "Сохранение...";
   api
     .editProfileInfo(obj)
     .then((res) => {
       userInfo.setUserInfo(res);
+      popupWithFormEdit.close()
       editSave.textContent = "Сохраненить";
     })
     .catch((err) => {
@@ -160,15 +170,14 @@ const popupWithFormEdit = new PopupWithForm(".popup_edit", (obj) => {
 });
 popupWithFormEdit.setEventListeners();
 
-const avatarPopupElement = new PopupWithForm(".popup_avatar", (item) => {
-  const avatarSave = avatarPopup.querySelector(".popup__button");
+const avatarPopupElement = new PopupWithForm(".popup_avatar", constants, (item) => {
   avatarSave.textContent = "Сохранение...";
   api
     .editProfileAvatar(item.link)
     .then((res) => {
       userInfo.setUserInfo(res);
-      avatarSave.textContent = "Сохранить";
       avatarPopupElement.close();
+      avatarSave.textContent = "Сохранить";
     })
     .catch((err) => console.log(`Error: ${err}`));
 });

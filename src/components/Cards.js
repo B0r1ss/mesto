@@ -1,11 +1,11 @@
 export default class Card {
-  constructor(data, cardSelector, currentUser, {openPopupImage, handleRemoveCard, handleLike}) {
+  constructor(data, cardSelector, currentUser, {openPopupImage, handleRemoveCard, handleLikeClick}) {
     this.data = data;
     this._cardSelector = cardSelector;
     this._currentUser = currentUser;
     this._openPopupImage = openPopupImage;
     this._handleDelCard = handleRemoveCard;
-    this._handleLike = handleLike;
+    this._handleLikeClick = handleLikeClick;
     this._likes = this.data.likes
     this._element = this._getTemplate();
     this._imageElement = this._element.querySelector(".place__image");
@@ -33,7 +33,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._likeButton.addEventListener("click", this._handleLike);
+    this._likeButton.addEventListener("click", this._handleLikeClick);
     this._deleteButton.addEventListener("click", this._handleDelCard);
     this._imageElement.addEventListener("click", this._openPopupImage);
   }
@@ -52,3 +52,12 @@ export default class Card {
     return this._element;
   }
 }
+
+
+/* не совсем понял:
+ В данном классе также должны существовать DOM методы:
+установки лайка для карточки
+удаления карточки
+метод открытия изображения
+Они же и так тут есть в виде handle
+Или их надо именно в отельные методы засунуть? */
