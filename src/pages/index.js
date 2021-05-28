@@ -9,6 +9,7 @@ import UserInfo from "../components/UserInfo.js";
 import FormValidator from "../components/FormValidator.js";
 import { settingsValidate } from "../utils/settings.js";
 import { constants } from "../utils/constants.js"
+import PopupConfirm from "../components/PopupConfurm";
 
 /*VAR'S */
 const elementsList = document.querySelector(".elements__list");
@@ -19,11 +20,13 @@ const avatarEdit = document.querySelector(".profile__avatar");
 const avatarPopup = document.querySelector(".popup_avatar");
 const addPopup = document.querySelector(".popup_add");
 const editPopup = document.querySelector(".popup_edit");
+const confirmPopup = document.querySelector(".popup_confirm");
 
 /*SAVE FORM BUTTONS*/
 const addSave = addPopup.querySelector(".popup__button");
 const editSave = editPopup.querySelector(".popup__button");
 const avatarSave = avatarPopup.querySelector(".popup__button"); 
+const deleteButton = confirmPopup.querySelector('.popup__button');
 
 /*GET FORMS*/
 const formAdd = document.forms.add_form;
@@ -59,7 +62,9 @@ api
 api
   .getInitialCards()
   .then((res) => {
+    res.reverse()
     cardsContainer.renderItems(res);
+
   })
   .catch((err) => {
     console.log(`Error: ${err}`);
@@ -72,23 +77,17 @@ function createCard(item, template) {
       popupWithImage.open(item.name, item.link);
     },
 
-    handleRemoveCard: (evt) => {
-      api
-        .delCard(item._id)
-        .then(() => {
-          evt.target.closest(".place").remove();
-        })
-        .catch((err) => {
-          console.log(`Error: ${err}`);
-        });
+    handleRemoveCard: () => {
+      card._id = item._id
+      confirmPopupElement.open(card)
     },
 
     handleLikeClick: (evt) => {
       const likeAmount = evt.target
         .closest(".place__likes")
         .querySelector(".place__like-amount");
-      evt.target.classList.toggle("place__like-button_enable");
-      if (evt.target.classList.contains("place__like-button_enable")) {
+        card.like()
+        if (evt.target.classList.contains("place__like-button_enable")) {
         api
           .setLike(item["_id"])
           .then((res) => {
@@ -140,10 +139,12 @@ const popupWithFormAdd = new PopupWithForm(".popup_add", constants, (obj) => {
       const cardElement = card.generateCard();
       cardsContainer.addItem(cardElement, false);
       popupWithFormAdd.close()
-      addSave.textContent = "Сохраненить";
     })
     .catch((err) => {
       console.log(`Error: ${err}`);
+    })
+    .finally(()=>{
+      addSave.textContent = "Сохранить";
     });
 });
 popupWithFormAdd.setEventListeners();
@@ -162,10 +163,12 @@ const popupWithFormEdit = new PopupWithForm(".popup_edit", constants, (obj) => {
     .then((res) => {
       userInfo.setUserInfo(res);
       popupWithFormEdit.close()
-      editSave.textContent = "Сохраненить";
     })
     .catch((err) => {
       console.log(`Error: ${err}`);
+    })
+    .finally(()=>{
+      editSave.textContent = "Сохраненить";
     });
 });
 popupWithFormEdit.setEventListeners();
@@ -177,11 +180,30 @@ const avatarPopupElement = new PopupWithForm(".popup_avatar", constants, (item) 
     .then((res) => {
       userInfo.setUserInfo(res);
       avatarPopupElement.close();
-      avatarSave.textContent = "Сохранить";
     })
-    .catch((err) => console.log(`Error: ${err}`));
+    .catch((err) => console.log(`Error: ${err}`))
+    .finally(()=>{
+      avatarSave.textContent = "Сохранить";
+    });
 });
 avatarPopupElement.setEventListeners();
+
+
+const confirmPopupElement = new PopupConfirm(
+  ".popup_confirm", constants,
+  (card) => {
+    deleteButton.textContent = 'Удаление...';
+    api.delCard(card._id)
+      .then(() => {
+        console.log(typeof(card))
+        card.deleteCard()
+        deleteButton.textContent = 'Да';
+        confirmPopupElement.close();
+      })
+      .catch(err => console.log(`Error ${err}`));
+  },
+);
+confirmPopupElement.setEventListeners();
 
 /*ADD LISTENERS */
 profileButtonAdd.addEventListener("click", () => {

@@ -45,19 +45,19 @@ export default class Card {
     this._imageElement.alt = this.data.name;
 
     if (this.data.owner._id !== this._currentUser._id) {
-      this._element.querySelector('.place__delete-button').remove();
+      this._element.querySelector(".place__delete-button").remove();
     };
 
     this._getLikes();
     return this._element;
   }
+
+  like() {
+    this._likeButton.classList.toggle("place__like-button_enable");
+  }
+ 
+  deleteCard() {
+    this._element.remove().bind(this._element);
+    this._element = null;
+  }
 }
-
-
-/* не совсем понял:
- В данном классе также должны существовать DOM методы:
-установки лайка для карточки
-удаления карточки
-метод открытия изображения
-Они же и так тут есть в виде handle
-Или их надо именно в отельные методы засунуть? */
