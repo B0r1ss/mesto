@@ -1,13 +1,19 @@
 export default class Card {
-  constructor(data, cardSelector, currentUser, {openPopupImage, handleRemoveCard, handleLikeClick}) {
+  constructor(
+    data,
+    cardSelector,
+    currentUser,
+    { openPopupImage, handleRemoveCard, handleLikeClick }
+  ) {
     this.data = data;
     this._cardSelector = cardSelector;
     this._currentUser = currentUser;
     this._openPopupImage = openPopupImage;
     this._handleDelCard = handleRemoveCard;
     this._handleLikeClick = handleLikeClick;
-    this._likes = this.data.likes
+    this._likes = this.data.likes;
     this._element = this._getTemplate();
+    this._cardElem = this._element.querySelector(".place");
     this._imageElement = this._element.querySelector(".place__image");
     this._titleElement = this._element.querySelector(".place__title");
     this._likeButton = this._element.querySelector(".place__like-button");
@@ -25,8 +31,8 @@ export default class Card {
   /*ADD LIKES AND SET STATE OF LIKE BUTTONS */
   _getLikes() {
     this._likeAmount.textContent = this.data.likes.length;
-    this._likes.forEach(item => {
-      if(item._id === this._currentUser._id) {
+    this._likes.forEach((item) => {
+      if (item._id === this._currentUser._id) {
         this._likeButton.classList.add("place__like-button_enable");
       }
     });
@@ -46,7 +52,7 @@ export default class Card {
 
     if (this.data.owner._id !== this._currentUser._id) {
       this._element.querySelector(".place__delete-button").remove();
-    };
+    }
 
     this._getLikes();
     return this._element;
@@ -55,9 +61,8 @@ export default class Card {
   like() {
     this._likeButton.classList.toggle("place__like-button_enable");
   }
- 
+
   deleteCard() {
-    this._element.remove().bind(this._element);
-    this._element = null;
+    this._cardElem.remove();
   }
 }
